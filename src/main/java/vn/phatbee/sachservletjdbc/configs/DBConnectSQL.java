@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class DBConnectSQL {
     private final String serverName = "LAPTOP-1BLCIFVL\\PHATBEE";
-    private final String dbName = "ltwebst2";
+    private final String dbName = "sachjpa";
     private final String portNumber = "1433";
     private final String userID = "sa";
     private final String password = "0000";
