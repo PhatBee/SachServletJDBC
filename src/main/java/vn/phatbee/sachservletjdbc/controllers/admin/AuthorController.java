@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/admin/authors", "/admin/author/add", "/admin/author/insert"})
+@WebServlet(urlPatterns = {"/admin/authors", "/admin/author/add", "/admin/author/insert", "/admin/author/edit", "/admin/author/update", "/admin/author/delete"})
 public class AuthorController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     IAuthorService authorService = new AuthorServiceImpl();
