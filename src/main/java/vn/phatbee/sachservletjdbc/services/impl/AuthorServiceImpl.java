@@ -3,6 +3,7 @@ package vn.phatbee.sachservletjdbc.services.impl;
 import vn.phatbee.sachservletjdbc.dao.IAuthorDao;
 import vn.phatbee.sachservletjdbc.dao.impl.AuthorDaoImpl;
 import vn.phatbee.sachservletjdbc.models.AuthorModel;
+import vn.phatbee.sachservletjdbc.models.RatingModel;
 import vn.phatbee.sachservletjdbc.services.IAuthorService;
 
 import java.util.List;
@@ -39,4 +40,10 @@ public class AuthorServiceImpl implements IAuthorService {
     public AuthorModel getAuthor(int id) {
         return authorDao.getAuthor(id);
     }
+
+    @Override
+    public List<AuthorModel> getAuthorsByBookId(int id) {
+        return authorDao.getAuthorsByBookId(id);
+    }
+
 }

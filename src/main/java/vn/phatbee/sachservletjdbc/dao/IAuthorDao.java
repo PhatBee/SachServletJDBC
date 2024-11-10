@@ -11,5 +11,5 @@ public interface IAuthorDao {
     List<AuthorModel> getAllAuthors(int currentPage, int size);
     int count();
     AuthorModel getAuthor(int id);
-
+    List<AuthorModel> getAuthorsByBookId(int bookId);
 }

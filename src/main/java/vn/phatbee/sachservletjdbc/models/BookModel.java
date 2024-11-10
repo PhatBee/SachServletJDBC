@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-
 public class BookModel implements Serializable {
     private int bookid;
     private int isbn;
@@ -23,6 +23,7 @@ public class BookModel implements Serializable {
     private String cover_image;
     private int quantity;
     private List<AuthorModel> authors; // Thêm thuộc tính authors
+    private List<RatingModel> ratings = new ArrayList<>();
 
 
     @Override
@@ -39,6 +40,4 @@ public class BookModel implements Serializable {
                 ", quantity=" + quantity +
                 '}';
     }
-
-
 }

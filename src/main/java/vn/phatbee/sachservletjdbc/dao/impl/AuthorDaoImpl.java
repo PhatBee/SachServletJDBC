@@ -151,4 +151,29 @@ public class AuthorDaoImpl implements IAuthorDao {
         }
         return null;
     }
+
+    @Override
+    public List<AuthorModel> getAuthorsByBookId(int bookId) {
+        List<AuthorModel> authors = new ArrayList<>();
+        String query = "SELECT * FROM author a JOIN book_author ba ON a.author_id = ba.authorid WHERE ba.bookid = ?";
+
+        try {
+            conn = new DBConnectSQL().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, bookId);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                AuthorModel author = new AuthorModel();
+                author.setAuthor_id(rs.getInt("author_id"));
+                author.setAuthor_name(rs.getString("author_name"));
+                author.setDate_of_birth(rs.getDate("date_of_birth"));
+                authors.add(author);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return authors;
+    }
 }

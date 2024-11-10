@@ -4,6 +4,12 @@ import vn.phatbee.sachservletjdbc.configs.DBConnectSQL;
 import vn.phatbee.sachservletjdbc.dao.IBookDao;
 import vn.phatbee.sachservletjdbc.models.AuthorModel;
 import vn.phatbee.sachservletjdbc.models.BookModel;
+import vn.phatbee.sachservletjdbc.services.IAuthorService;
+import vn.phatbee.sachservletjdbc.services.IBookService;
+import vn.phatbee.sachservletjdbc.services.IRatingService;
+import vn.phatbee.sachservletjdbc.services.impl.AuthorServiceImpl;
+import vn.phatbee.sachservletjdbc.services.impl.BookServiceImpl;
+import vn.phatbee.sachservletjdbc.services.impl.RatingServiceImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,6 +23,9 @@ public class BookDaoImpl implements IBookDao {
     public Connection conn = null;
     public PreparedStatement ps = null;
     public ResultSet rs = null;
+
+    IAuthorService authorService = new AuthorServiceImpl();
+    IRatingService ratingService = new RatingServiceImpl();
 
     @Override
     public List<BookModel> findAll() {
@@ -87,7 +96,38 @@ public class BookDaoImpl implements IBookDao {
 
     @Override
     public BookModel findById(int id) {
-        return null;
+        String query = "SELECT * FROM books WHERE bookid = ?";
+        BookModel book = null;
+
+        try {
+            conn = new DBConnectSQL().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                book = new BookModel();
+                book.setBookid(rs.getInt("bookid"));
+                book.setIsbn(rs.getInt("isbn"));
+                book.setTitle(rs.getString("title"));
+                book.setPublisher(rs.getString("publisher"));
+                book.setPrice(rs.getDouble("price"));
+                book.setDescription(rs.getString("description"));
+                book.setPublish_date(rs.getDate("publish_date"));
+                book.setCover_image(rs.getString("cover_image"));
+                book.setQuantity(rs.getInt("quantity"));
+
+                // Lấy các tác giả (nếu có)
+                book.setAuthors(authorService.getAuthorsByBookId(id));
+
+                // Lấy các đánh giá (nếu có)
+                book.setRatings(ratingService.getRatingsByBookId(id));
+            }   
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return book;
     }
 
     @Override
